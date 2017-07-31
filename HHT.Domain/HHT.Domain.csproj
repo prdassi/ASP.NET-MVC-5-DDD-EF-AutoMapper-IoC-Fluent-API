@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{67F8933C-8C3B-4E79-8760-E6A1C642A223}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>HHT.Domain</RootNamespace>
+    <AssemblyName>HHT.Domain</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Mvc, Version=3.0.0.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Entities\Perfil.cs" />
+    <Compile Include="Entities\AjustePonto.cs" />
+    <Compile Include="Entities\ArquivoContratado.cs" />
+    <Compile Include="Entities\ArquivoEmpresa.cs" />
+    <Compile Include="Entities\Associado.cs" />
+    <Compile Include="Entities\Consolidacao.cs" />
+    <Compile Include="Entities\Contratado.cs" />
+    <Compile Include="Entities\DocumentoGeral.cs" />
+    <Compile Include="Entities\Empresa.cs" />
+    <Compile Include="Entities\Funcao.cs" />
+    <Compile Include="Entities\Historico.cs" />
+    <Compile Include="Entities\Identificacao.cs" />
+    <Compile Include="Entities\Local.cs" />
+    <Compile Include="Entities\MappedLocal.cs" />
+    <Compile Include="Entities\MappedEmpresaLocal.cs" />
+    <Compile Include="Entities\MappedServico.cs" />
+    <Compile Include="Entities\Ponto.cs" />
+    <Compile Include="Entities\Servico.cs" />
+    <Compile Include="Entities\TipoDocumento.cs" />
+    <Compile Include="Entities\Usuario.cs" />
+    <Compile Include="Interfaces\Repositories\IAjustePontoRepository.cs" />
+    <Compile Include="Interfaces\Repositories\IArquivoContratadoRepository.cs" />
+    <Compile Include="Interfaces\Repositories\IArquivoEmpresaRepository.cs" />
+    <Compile Include="Interfaces\Repositories\IPerfilRepository.cs" />
+    <Compile Include="Interfaces\Repositories\IAssociadoRepository.cs" />
+    <Compile Include="Interfaces\Repositories\IConsolidacaoRepository.cs" />
+    <Compile Include="Interfaces\Repositories\IContratadoRepository.cs" />
+    <Compile Include="Interfaces\Repositories\IDocumentoGeralRepository.cs" />
+    <Compile Include="Interfaces\Repositories\IEmpresaRepository.cs" />
+    <Compile Include="Interfaces\Repositories\IFuncaoRepository.cs" />
+    <Compile Include="Interfaces\Repositories\IHistoricoRepository.cs" />
+    <Compile Include="Interfaces\Repositories\ILocalRepository.cs" />
+    <Compile Include="Interfaces\Repositories\IMappedLocalRepository.cs" />
+    <Compile Include="Interfaces\Repositories\IMappedServicoRepository.cs" />
+    <Compile Include="Interfaces\Repositories\IMappedEmpresaLocalRepository.cs" />
+    <Compile Include="Interfaces\Repositories\IPontoRepository.cs" />
+    <Compile Include="Interfaces\Repositories\IRepositoryBase.cs" />
+    <Compile Include="Interfaces\Repositories\IServicoRepository.cs" />
+    <Compile Include="Interfaces\Repositories\ITipoDocumentoRepository.cs" />
+    <Compile Include="Interfaces\Repositories\IUsuarioRepository.cs" />
+    <Compile Include="Interfaces\Services\IContratadoService.cs" />
+    <Compile Include="Interfaces\Services\IPerfilService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Interfaces\Services\IAjustePontoService.cs" />
+    <Compile Include="Interfaces\Services\IArquivoContratadoService.cs" />
+    <Compile Include="Interfaces\Services\IArquivoEmpresaService.cs" />
+    <Compile Include="Interfaces\Services\IAssociadoService.cs" />
+    <Compile Include="Interfaces\Services\IConsolidacaoService.cs" />
+    <Compile Include="Interfaces\Services\IMappedEmpresaLocalService.cs" />
+    <Compile Include="Interfaces\Services\IDocumentoGeralService.cs" />
+    <Compile Include="Interfaces\Services\IEmpresaService.cs" />
+    <Compile Include="Interfaces\Services\IFuncaoService.cs" />
+    <Compile Include="Interfaces\Services\IHistoricoService.cs" />
+    <Compile Include="Interfaces\Services\ILocalService.cs" />
+    <Compile Include="Interfaces\Services\IMappedLocalService.cs" />
+    <Compile Include="Interfaces\Services\IMappedServicoService.cs" />
+    <Compile Include="Interfaces\Services\IPontoService.cs" />
+    <Compile Include="Interfaces\Services\IServiceBase.cs" />
+    <Compile Include="Interfaces\Services\IServicoService.cs" />
+    <Compile Include="Interfaces\Services\ITipoDocumentoService.cs" />
+    <Compile Include="Interfaces\Services\IUsuarioService.cs" />
+    <Compile Include="Services\AjustePontoService.cs" />
+    <Compile Include="Services\ArquivoContratadoService.cs" />
+    <Compile Include="Services\ArquivoEmpresaService.cs" />
+    <Compile Include="Services\EmpresaService.cs" />
+    <Compile Include="Services\PerfilService.cs" />
+    <Compile Include="Services\AssociadoService.cs" />
+    <Compile Include="Services\ConsolidacaoService.cs" />
+    <Compile Include="Services\MappedEmpresaLocalService.cs" />
+    <Compile Include="Services\ContratadoService.cs" />
+    <Compile Include="Services\DocumentoGeralService.cs" />
+    <Compile Include="Services\FuncaoService.cs" />
+    <Compile Include="Services\HistoricoService.cs" />
+    <Compile Include="Services\LocalService.cs" />
+    <Compile Include="Services\MappedLocalService.cs" />
+    <Compile Include="Services\MappedServicoService.cs" />
+    <Compile Include="Services\PontoService.cs" />
+    <Compile Include="Services\ServiceBase.cs" />
+    <Compile Include="Services\ServicoService.cs" />
+    <Compile Include="Services\TipoDocumentoService.cs" />
+    <Compile Include="Services\UsuarioService.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

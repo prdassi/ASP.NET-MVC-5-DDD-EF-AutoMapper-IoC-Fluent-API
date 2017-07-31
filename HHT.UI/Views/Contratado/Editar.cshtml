@@ -1,0 +1,124 @@
+﻿@model HHT.UI.ViewModels.ContratadoViewModel
+
+@section specificScript{
+    @Scripts.Render("~/bundles/contratado")
+}
+
+<div class="page-head">
+    <ol class="breadcrumb page-head-nav">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Portal</a></li>
+        <li class="active">Contratados</li>
+    </ol>
+</div>
+<div class="container-fluid">
+    <div class="row">
+
+        <div class="col-sm-12">
+            <div class="panel panel-border-color panel-border-color-primary">
+                <div class="panel-heading panel-heading-divider">
+                    Editar contratado
+                    <div class="tools"><a href="@Url.Action("Index", "Contratado")"><span class="icon-container back"><span class="icon back mdi mdi-chevron-left"></span></span></a></div>
+                </div>
+                <div class="panel-body">
+                    @using (Html.BeginForm("Editar", "Contratado", FormMethod.Post, new { @class = "form-horizontal", id = "frmCadastrar", data_toggle = "validator", data_disable = "false" }))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        @Html.HiddenFor(model => model.ContratadoId)
+                        <div class="col-sm-5">
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                            <div class="form-group xs-mt-10">
+                                @Html.LabelFor(model => model.Nome, htmlAttributes: new { @class = "col-sm-4 without-padding-right control-label" })
+                                <div class="col-sm-8">
+                                    @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control input-xs", required = "required" } })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.RG, htmlAttributes: new { @class = "col-sm-4 without-padding-right control-label" })
+                                <div class="col-sm-8">
+                                    @Html.EditorFor(model => model.RG, new { htmlAttributes = new { @class = "form-control input-xs", required = "required", data_mask = "999999999AA" } })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.Label("Função", htmlAttributes: new { @class = "col-sm-4 without-padding-right control-label" })
+                                <div class="col-sm-8">
+                                    @Html.DropDownList("FuncaoId", ViewBag.Funcoes as SelectList, "-- Selecione --", new { @class = "form-control input-xs", required = "required" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.Label("Empresa", htmlAttributes: new { @class = "col-sm-4 without-padding-right control-label" })
+                                <div class="col-sm-8">
+                                    @Html.DropDownList("EmpresaId", ViewBag.Empresas as SelectList, "-- Selecione --", new { @class = "form-control input-xs", required = "required" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+
+                            <div class="form-group xs-mt-10">
+                                @Html.LabelFor(model => model.Ativo, htmlAttributes: new { @class = "col-sm-5 without-padding-right control-label" })
+                                <div class="col-sm-7">
+                                    <div class="be-radio inline" style="line-height:23px;">
+                                        @Html.RadioButtonFor(model => model.Ativo, true, new { id = "ativoSim", @checked = true })
+                                        <label for="ativoSim">Sim</label>
+                                    </div>
+                                    <div class="be-radio inline" style="line-height:23px;">
+                                        @Html.RadioButtonFor(model => model.Ativo, false, new { id = "ativoNao" })
+                                        <label for="ativoNao">Não</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.Label("Data Admissão", htmlAttributes: new { @class = "col-sm-5 without-padding-right control-label" })
+                                <div class="col-sm-7">
+                                    @Html.EditorFor(model => model.DataAdmissao, new { htmlAttributes = new { @class = "form-control input-xs", required = "required", data_mask = "99/99/9999", placeholder = "DD/MM/AAAA" } })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.Label("Responsável Avaliador", htmlAttributes: new { @class = "col-sm-5 without-padding-right control-label" })
+                                <div class="col-sm-7">
+                                    @Html.DropDownList("UsuarioId", ViewBag.Usuarios as SelectList, "-- Selecione --", new { @class = "form-control input-xs", required = "required" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.Label("Existe Restrição - Tolerância Zero", htmlAttributes: new { @class = "col-sm-5 without-padding-right control-label mdc-text-red" })
+                                <div class="col-sm-7">
+                                    <div class="be-radio inline" style="line-height:23px;">
+                                        @Html.RadioButtonFor(model => model.Restricao, true, new { id = "restricaoSim" })
+                                        <label for="restricaoSim">Sim</label>
+                                    </div>
+                                    <div class="be-radio inline" style="line-height:23px;">
+                                        @Html.RadioButtonFor(model => model.Restricao, false, new { id = "restricaoNao" })
+                                        <label for="restricaoNao">Não</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-11">
+                            <div class="form-group" id="divInativoJustificativa">
+                                <label for="inputInativoJustificativa" style="margin-left: -12px" class="col-sm-2 without-padding-right control-label">Justificativa</label>
+                                <div class="col-sm-10">
+                                    @Html.TextAreaFor(model => model.Justificativa, new { @class = "form-control input-xs" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="panel-heading-divider-button"></div>
+                                <div class="col-sm-12">
+                                    <p class="text-right">
+                                        <button id="btnConfirmarEdit"type="submit" class="btn btn-space btn-primary">Confirmar</button>
+                                        <button type="button" class="btn btn-space btn-default" onclick="javascript:document.location.href='@Url.Action("Editar", "Contratado", new { contratadoId = Model.ContratadoId })'">Cancelar</button>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

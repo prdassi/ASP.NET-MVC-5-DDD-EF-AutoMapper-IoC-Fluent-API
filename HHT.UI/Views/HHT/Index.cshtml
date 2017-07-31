@@ -1,0 +1,49 @@
+﻿@model IEnumerable<HHT.UI.ViewModels.EmpresaViewModel>
+
+@section specificScript{
+
+<script type="text/javascript" src="~/Scripts/Controllers/HHT.js"></script>
+}
+
+<div class="page-head">
+    <ol class="breadcrumb page-head-nav">
+        <li><a href="index.html">Home</a></li>
+        <li class="active">H.H.T.</li>
+    </ol>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel panel-border-color panel-border-color-primary">
+                <form id="frmRegistroPonto" data-toggle="validator">
+                    <div class="panel-heading panel-heading-divider">Registrar Ponto</div>
+                    <div class="panel-body">
+                        <div class="form-horizontal">
+                            <div class="col-md-5">
+                                <span class="text-primary panel-subtitle xs-mt-20">Selecione o local para registrar o colaborador:</span>
+                                <div id="RegistroPonto" class="form-group xs-mt-20 ">
+                                    <label for="inputNome" class="col-md-2 without-padding-right control-label">Local</label>
+                                    <div class="col-sm-8">
+                                        <div class="col-sm-10">
+                                            @Html.DropDownList("LocalId", ViewBag.LocalId as SelectList, "-- Selecione --", new { @class = "form-control input-xs", required = "required" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-7 xs-pb-10">
+                                <span class="text-primary panel-subtitle xs-mt-20">Clique na opção para registrar o ponto do colaborador:</span>
+                                <div class="col-md-12">
+                                    <div class="xs-mt-15">
+                                        <a href="#"  onclick="RegistrarPonto('Entrada')" class="btn btn-space btn-primary btn-big" style="box-shadow: 0 0 10px 0 rgba(0,0,0,.12); border-radius: 5px;"><i class="icon fa fa-sign-in" style="padding: 20px;font-size: 4em"></i>ENTRADA</a>
+                                        <a href="#"  onclick="RegistrarPonto('Saída')" class="btn btn-space btn-default btn-big" style="margin-left: 30px; box-shadow: 0 0 10px 0 rgba(0,0,0,.12); border-radius: 5px;"><i class="icon fa fa-sign-out" style="padding: 20px;font-size: 4em"></i> SAÍDA </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

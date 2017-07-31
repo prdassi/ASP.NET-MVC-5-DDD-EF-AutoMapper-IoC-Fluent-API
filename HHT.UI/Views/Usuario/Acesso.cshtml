@@ -1,0 +1,73 @@
+﻿@model IEnumerable<HHT.UI.ViewModels.PerfilViewModel>
+
+<div class="page-head">
+    <ol class="breadcrumb page-head-nav">
+        <li><a href="#">Home</a></li>
+        <li class="active"><a href="#">Acesso de Usuário</a></li>
+    </ol>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel panel-default panel-table panel-border-color panel-border-color-primary">
+
+                <div class="panel-heading panel-heading-divider">
+                    Acessos de Usuários
+                    <div class="tools"><a href="@Url.Action("Index", "Usuario")"><span class="icon-container back"><span class="icon back mdi mdi-chevron-left"></span></span></a></div>
+                </div>
+
+                @using (Html.BeginForm("Acesso", "Usuario", new { usuarioId = ViewBag.UsuarioId }, FormMethod.Post, new { @class = "form-horizontal", id = "frmrAcesso", data_toggle = "validator", data_disable = "false" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Radio</label>
+
+
+                        @*@for (var item = 0; item < Model.Count(); item++)
+                            {*@
+                        @*<div class="be-radio">
+                                @{
+                                    var id = Model.ElementAt(item).PerfilId;
+
+                                   @Html.RadioButtonFor(m => @Model.ElementAt(item).PerfilId, @Model.ElementAt(item).PerfilId, new { id = @Model.ElementAt(item).PerfilId })
+                                    <label for="@Model.ElementAt(item).PerfilId">@Model.ElementAt(item).Nome</label>
+                                    <input type="text" id="@Model.ElementAt(item).Nome" name="Nome" value="@Model.ElementAt(item).Nome" />
+                                }
+                            </div>*@
+
+                        <div class="be-radio inline">
+                            @Html.RadioButton("PerfilId", false, new { id = "sdfsadf" })
+                            <label for="sdfsadf" name="sdfsadf" id="sdfsadf">Local</label>
+                        </div>
+                        <div class="be-radio inline">
+                            @Html.RadioButton("PerfilId", false, new { id = "Completa" })
+                            <label for="Completa">Completa</label>
+                        </div>
+
+                        @*}*@
+
+                        @for (var item = 0; item < Model.Count(); item++)
+                        {
+                            @Html.RadioButton(@Model.ElementAt(item).PerfilId, @Model.ElementAt(item).PerfilId, new { id = @Model.ElementAt(item).PerfilId })
+                            @Html.Label("@Model.ElementAt(item).PerfilId", @Model.ElementAt(item).Nome)                           
+                        }
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="panel-heading-divider-button"></div>
+                                <div class="col-sm-12">
+                                    <p class="text-right">
+                                        <button type="submit" class="btn btn-space btn-primary">Salvar</button>
+                                        <button class="btn btn-space btn-default">Cancelar</button>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>

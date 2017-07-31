@@ -1,0 +1,98 @@
+﻿@model IEnumerable<HHT.UI.ViewModels.DocumentoGeralViewModel>
+
+@section specificScript{
+    @Scripts.Render("~/bundles/documentoGeral")
+    <script>
+        $(document).ready(function () {
+            var table = $('#dataTable').DataTable({
+                destroy: true,
+                "fnDrawCallback": function( oSettings ) {
+                    componentHandler.upgradeDOM();
+                }
+            });
+            botaoNovoDocumento();
+        });
+    </script>
+}
+    <div class="page-head">
+        <ol class="breadcrumb page-head-nav">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="#">Administração</a></li>
+            <li class="active">Documentos Gerais</li>
+        </ol>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="panel panel-default panel-table panel-border-color panel-border-color-primary">
+                    <div class="panel-heading panel-heading-divider">Documentos Gerais</div>
+
+                    <div class="panel-body">
+                        <table id="datatable" class="table table-striped table-hover table-fw-widget">
+                            <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Descrição</th>
+                                    <th>Tipo</th>
+                                    <th>Local</th>
+                                    <th>Associado a</th>
+                                    <th>Vencimento (meses)</th>
+                                    <th>Ação</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr class="odd gradeX" id="row_@item.DocumentoGeralId">
+                                        <td>@Html.DisplayFor(modelItem => item.Nome)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.Descricao)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.TipoDocumento.Nome)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.Local.Sigla)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.Associado.Nome)</td>
+                                        @{
+                                            if (@item.Vencimento == 0)
+                                            {
+                                                <td></td>
+                                            }
+                                            else
+                                            {
+                                                <td>@Html.DisplayFor(modelItem => item.Vencimento)</td>
+                                            }
+                                        }                                        
+                                        <td class="center actions">
+                                            <div class="icon-table"><a href="@Url.Action("Editar", "DocumentoGeral", new { documentoId = item.DocumentoGeralId })" data-toggle="tooltip" data-original-title="Editar" class="icon"><i class="mdi mdi-edit"></i></a></div>
+                                            <div class="icon-table"><a href="#" data-id=@item.DocumentoGeralId data-content="ExcluirDocumento" class="btnExcluir icon"><i data-toggle="tooltip" data-original-title="Excluir" class="mdi mdi-delete"></i></a></div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!--Modal Excluir-->
+<div id="mod-danger" tabindex="-1" role="dialog" style="" class="modal fade" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" data-dismiss="modal" id="btnClose" aria-hidden="true" class="close"><span class="mdi mdi-close"></span></button>
+            </div>
+            <div class="modal-body">
+                <div class="text-center">
+                    <div class="text-danger"><span class="modal-main-icon mdi mdi-close-circle-o"></span></div>
+                    <h3>Atenção!</h3>
+                    <h4>Deseja realmente excluir este documento?</h4>
+
+                    <div id="buttons" class="xs-mt-50">
+                        <button type="button" id="bntCancelar" data-dismiss="modal" class="btn btn-space btn-default">Cancelar</button>
+                        <button type="button" id="btnConfirmaExclusao" class="btn btn-space btn-danger">Excluir</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer"></div>
+        </div>
+    </div>
+</div>

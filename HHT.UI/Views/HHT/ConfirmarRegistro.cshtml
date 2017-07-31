@@ -1,0 +1,171 @@
+﻿@model HHT.UI.ViewModels.ContratadoViewModel
+
+<div class="page-head">
+    <ol class="breadcrumb page-head-nav">
+        <li><a href="#">Home</a></li>
+        <li class="active">H.H.T.</li>
+    </ol>
+</div>
+<div class="container-fluid">
+    <div class="row">
+
+        <div class="col-sm-12">
+            <div class="panel panel-border-color panel-border-color-primary">
+                <div class="panel-heading panel-heading-divider">
+                    Registrar @ViewBag.RegistrarPonto
+                    <div class="tools"><a href="@Url.Action("RegistrarPonto", "HHT", new { registrarPonto = ViewBag.RegistrarPonto, localId = ViewBag.LocalId, localNome = ViewBag.LocalNome })"><span class="icon-container back"><span class="icon back mdi mdi-chevron-left"></span></span></a></div>
+                </div>
+                <div class="panel-body">
+                    @using (Html.BeginForm("SalvarRegistro", "HHT", FormMethod.Post, new { @id = "formSalvarRegistro", @class = "form-horizontal" }))
+                    {
+                        <div class="col-sm-5">
+
+                            @Html.AntiForgeryToken()
+
+                            @Html.HiddenFor(model => model.ContratadoId)
+                            @Html.Hidden("Registro", (string)ViewBag.RegistrarPonto)
+                            @Html.Hidden("LocalId", (int)ViewBag.LocalId)
+                            @Html.Hidden("LocalNome", (string)ViewBag.LocalNome)
+                            <div class="form-group xs-mt-10">
+                                <label for="inputNome" class="col-sm-3 without-padding-right control-label">Nome</label>
+                                <div class="col-sm-9">
+                                    @Html.Editor("Nome", new { htmlAttributes = new { @Value = Model.Nome, @class = "form-control input-xs", @readonly = "readonly" } })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputFuncao" class="col-sm-3 without-padding-right control-label">Função</label>
+                                <div class="col-sm-9">
+                                    @Html.EditorFor(model => model.Funcao.Nome, new { htmlAttributes = new { @class = "form-control input-xs", @readonly = "readonly" } })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputLocal" class="col-sm-3 without-padding-right control-label">Local</label>
+                                <div class="col-sm-9">
+                                    @Html.Editor("Local", new { htmlAttributes = new { @Value = ViewBag.LocalNome, @class = "form-control input-xs", @readonly = "readonly" } })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputLocal" class="col-sm-3 without-padding-right control-label">Empresa</label>
+                                <div class="col-sm-9">
+                                    @Html.EditorFor(model => model.Empresa.Nome, new { htmlAttributes = new { @class = "form-control input-xs", @readonly = "readonly" } })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-1"></div>
+                        <div class="col-sm-5">
+
+                            <div class="form-group xs-mt-10">
+                                <label for="inputRG" class="col-sm-4 without-padding-right control-label">RG</label>
+                                <div class="col-sm-8">
+                                    @Html.EditorFor(model => model.RG, new { htmlAttributes = new { @class = "form-control input-xs", @readonly = "readonly" } })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputAcessoPermitidoAte" class="col-sm-4 without-padding-right control-label">Acesso permitido até</label>
+                                <div class="col-sm-8">
+                                    @{
+                                        if (Model.Empresa.EmpresaAtiva)
+                                        {
+                                            if (Model.Ativo)
+                                            {
+                                                if (!Model.Restricao)
+                                                {
+
+                                                    if (Model.ArquivosContratado.Count > 0)
+                                                    {
+
+                                                        if (Model.ValidadeDocumento != null)
+                                                        {
+
+                                                            @Html.Editor("AcessoPermitidoAte", new { htmlAttributes = new { @Value = Model.ValidadeDocumento.Value.ToShortDateString(), @class = "form-control input-xs", @readonly = "readonly" } })
+                                                        }
+                                                        else
+                                                        {
+                                                            @Html.Editor("AcessoPermitidoAte", new { htmlAttributes = new { @Value = "Indeterminado", @class = "form-control input-xs", @readonly = "readonly", @style = "color: #0078ae" } })
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        @Html.Editor("AcessoPermitidoAte", new { htmlAttributes = new { @Value = "Sem Documento", @class = "form-control input-xs", @readonly = "readonly", @style = "color: red" } })
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    @Html.Editor("AcessoPermitidoAte", new { htmlAttributes = new { @Value = "Tolerância Zero", @class = "form-control input-xs", @readonly = "readonly", @style = "color: red" } })
+                                                }
+                                            }
+                                            else
+                                            {
+                                                @Html.Editor("AcessoPermitidoAte", new { htmlAttributes = new { @Value = "Inativo", @class = "form-control input-xs", @readonly = "readonly", @style = "color: red" } })
+                                            }
+                                        }
+                                        else
+                                        {
+                                            @Html.Editor("AcessoPermitidoAte", new { htmlAttributes = new { @Value = "Empresa Inativa", @class = "form-control input-xs", @readonly = "readonly", @style = "color: red" } })
+                                        }
+                                    }
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputAprovadoPor" class="col-sm-4 without-padding-right control-label">Aprovador</label>
+                                <div class="col-sm-8">
+                                    @Html.EditorFor(model => model.Usuario.Nome, new { htmlAttributes = new { @class = "form-control input-xs", @readonly = "readonly" } })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputEntrada" class="col-sm-4 without-padding-right control-label">@ViewBag.RegistrarPonto</label>
+                                <div class="col-sm-8">
+                                    @Html.Editor("DataEntrada", new { htmlAttributes = new { @Value = DateTime.Now, @class = "form-control input-xs", @readonly = "readonly" } })
+                                </div>
+                                @Html.Hidden("DataRegistroEntrada", DateTime.Now)
+                            </div>
+
+                        </div>
+                        <div class="row">
+
+                            <div class="col-sm-12">
+                                <div class="panel-heading-divider-button"></div>
+                                <div class="col-sm-12">
+                                    <p class="text-right">
+                                        @{
+                                            if (Model.Empresa.EmpresaAtiva)
+                                            {
+                                                if (Model.Ativo)
+                                                {
+                                                    if (!Model.Restricao)
+                                                    {
+                                                        if (Model.ArquivosContratado.Count > 0)
+                                                        {
+                                                            if (Model.ValidadeDocumento != null)
+                                                            {
+                                                                if (Model.ValidadeDocumento.Value.CompareTo(DateTime.Now.Date) >= 0)
+                                                                {
+                                                                    <button id="btnRegistro" type="submit" @*data-toggle="modal" data-target="#mod-success"*@ class="btn btn-space btn-primary">Confirmar</button>
+
+                                                                }
+                                                            }
+                                                            else
+                                                            {
+                                                                <button id="btnRegistro" type="submit" @*data-toggle="modal" data-target="#mod-success"*@ class="btn btn-space btn-primary">Confirmar</button>
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section specificScript{
+    @Scripts.Render("~/bundles/hht")
+    <script type="text/javascript" src="~/Scripts/jquery.gritter.js"></script>
+    <script src="~/Scripts/bootstrap-slider.js" type="text/javascript"></script>
+}

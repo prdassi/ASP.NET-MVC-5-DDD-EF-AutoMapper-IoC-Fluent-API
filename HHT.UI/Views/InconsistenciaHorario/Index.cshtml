@@ -1,0 +1,116 @@
+﻿@model IEnumerable<HHT.UI.ViewModels.PontoViewModel>
+
+@section specificScript{
+    <script type="text/javascript" src="~/Scripts/Controllers/inconsistenciaHorario.js"></script>
+    <script>
+        function teste() {
+            $('Ano').val();
+        }
+    </script>
+}
+
+<div class="page-head">
+    <ol class="breadcrumb page-head-nav">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="#">Relatórios</a></li>
+        <li class="active">Inconsistência de Horários</li>
+    </ol>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel panel-border-color panel-border-color-primary">
+                <div class="panel-heading panel-heading-divider">Inconsistência de horários</div>
+                <div class="panel-body">
+                    @using (Html.BeginForm("Buscar", "InconsistenciaHorario", FormMethod.Post, new { @class = "form-horizontal" ,id = "frmInconsistencia", data_toggle = "validator", data_disable = "false" }))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="inputLocal" class="col-md-2 control-label">Local</label>
+                                <div class="col-sm-12">
+                                    @Html.DropDownList("LocalId", ViewBag.LocalId as SelectList, "-- Selecione --", new { @class = "form-control input-xs", required = "required" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3" style="margin-left: 0px">
+                            <div class="form-group">
+                                <label for="inputEmpresa" class="col-md-3 without-padding-right control-label">Empresa</label>
+                                <div class="col-sm-12">
+                                    @Html.DropDownList("EmpresaId", Enumerable.Empty<SelectListItem>(), "-- Selecione --", new { @class = "form-control input-xs", required = "required" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2" style="margin-left: 0px">
+                            <div class="form-group">
+                                <label for="inputAno" class="col-md-2 without-padding-right control-label">Ano</label>
+                                <div class="col-sm-12">
+                                    @Html.DropDownList("Ano", ViewBag.AnoId as SelectList, "-- Selecione --", new { @class = "form-control input-xs", required = "required" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2" style="margin-left: 0px">
+                            <div class="form-group">
+                                <label for="inputNome" class="col-md-2 without-padding-right control-label">Mês</label>
+                                <div class="col-sm-12">
+                                    @Html.DropDownList("Mes", Enumerable.Empty<SelectListItem>(), "-- Selecione --", new { @class = "form-control input-xs", required = "required" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <div class="form-group xs-ml-0 xs-mt-25">
+                                <button  id="btnBuscar"type="submit" data-toggle="modal" data-target="#mod-success" class="btn btn-space btn-primary">Buscar</button>
+                            </div>
+                        </div>
+                        <div class="row"></div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12">
+            <div class="panel panel-default">
+                <div class="panel-heading panel-heading-divider">Inconsistências à resolver</div>
+
+                <div class="panel-body">
+                    <table id="tableExport" class="table table-striped table-hover table-fw-widget">
+                        <thead>
+                            <tr>
+                                <th>Local</th>
+                                <th>Nome</th>
+                                <th>RG</th>
+                                <th>Empresa</th>
+                                <th>Dia</th>
+                                <th>Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null)
+                            {
+                                foreach (var item in Model)
+                                {
+                                    <tr class="odd gradeX">
+                                        <td>@Html.DisplayFor(model => item.Local.Sigla)</td>
+                                        <td>@Html.DisplayFor(model => item.Contratado.Nome)</td>
+                                        <td>@Html.DisplayFor(model => item.Contratado.RG)</td>
+                                        <td>@Html.DisplayFor(model => item.Contratado.Empresa.Nome)</td>
+                                        <td>@Html.DisplayFor(model => item.DataRegistro)</td>
+                                        <td class="center actions">
+                                            <div class="icon-table"><a href="@Url.Action("Editar", "AjustePonto", new { contratadoId = item.ContratadoId, nome = item.Contratado.Nome, rg = item.Contratado.RG,
+                                                                            ano = Html.Value("Ano"), mes = Html.Value("Mes"), dia = item.DataRegistro.Day, diaBuscado = 0, origem = "Relatorio" })" data-toggle="tooltip" data-original-title="Ajustar Ponto" class="icon"><i class="mdi mdi-edit"></i></a></div>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+

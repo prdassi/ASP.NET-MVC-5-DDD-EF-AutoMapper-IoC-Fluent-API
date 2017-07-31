@@ -1,0 +1,35 @@
+﻿<div class="be-left-sidebar">
+    <div class="left-sidebar-wrapper">
+        <div class="left-sidebar-spacer">
+            <div class="left-sidebar-scroll">
+                <div class="left-sidebar-content">
+                    <ul class="sidebar-elements">
+                        <li class="divider">Menu</li>
+                        <li id="hht"><a href="@Url.Action("Index", "HHT")"><i class="icon mdi mdi-time"></i><span>H.H.T</span></a></li>   <!--"ponto-entrada-saida.html">-->
+                        <li class="parent" id="portal">
+                            <a href="#"><i class="icon mdi mdi-globe-alt"></i><span>Portal</span></a>
+                            <ul class="sub-menu">
+                                <li id="portalEmpresa"><a href="@Url.Action("Index", "Empresa")">Empresas</a></li>   <!--portal-empresa.html-->
+                                <li id="portalContratado"><a href="@Url.Action("Index", "Contratado")">Contratados</a></li>   <!--portal-contratado.html-->
+                            </ul>
+                        </li>
+                        <li class="parent" id="relatorio">
+                            <a href="#"><i class="icon mdi mdi-file-text"></i><span>Relatórios</span></a>
+                            <ul class="sub-menu">
+                                <li id="relatorioConsolidacao"><a href="@Url.Action("Index", "Consolidacao")">Consolidação HHT</a></li>   <!--relatorio-consolidacao.html-->
+                                <li id="relatorioInconsistencia"><a href="@Url.Action("Index", "InconsistenciaHorario")">Inconsistência de Horários</a></li>   <!--inconsistencia-horarios.html-->
+                            </ul>
+                        </li>
+                        <li class="parent" id="admin">
+                            <a href="#"><i class="icon mdi mdi-settings"></i><span>Administração</span></a>
+                            <ul class="sub-menu">
+                                <li id="adminDocumentosGerais"><a href="@Url.Action("Index", "DocumentoGeral")">Documentos Gerais</a></li>    <!--documentos-gerais.htm-->
+                                <li id="adminAjustesPonto"><a href="@Url.Action("Index", "AjustePonto")">Ajustes de Ponto</a></li>   <!--ponto.html-->
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

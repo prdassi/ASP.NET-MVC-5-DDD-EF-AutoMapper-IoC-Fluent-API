@@ -1,0 +1,158 @@
+﻿@model HHT.UI.ViewModels.EmpresaViewModel
+
+@section specificScript{
+   
+<script type="text/javascript" src="~/Scripts/Controllers/Empresa.js"></script>
+    <script>
+        // Selecionar vários tipos de serviços
+        $('#ServicosSelecionados').multiselect({
+            enableClickableOptGroups: true
+        });
+
+        $('#LocaisSelecionados').multiselect({
+            enableClickableOptGroups: true
+        });
+
+        //Esconde AES
+        $("#aes").hide();
+    </script>
+}
+<div class="page-head">
+    <ol class="breadcrumb page-head-nav">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="#">Portal</a></li>
+        <li class="active">Empresas</li>
+    </ol>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel panel-border-color panel-border-color-primary">
+                <div class="panel-heading panel-heading-divider">
+                    Cadastrar Empresa
+                    <div class="tools"><a href="@Url.Action("Index", "Empresa")"><span class="icon-container back"><span class="icon back mdi mdi-chevron-left"></span></span></a></div>
+                </div>
+                <div class="panel-body">
+                    @using (Html.BeginForm("Cadastrar", "Empresa", FormMethod.Post, new { @class = "form-horizontal", id = "frmCadastrar", data_toggle = "validator", data_disable="false" }))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="col-sm-6">
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <div class="form-group xs-mt-10">
+                                <label for="inputNomeEmpresa" class="col-sm-5 without-padding-right control-label">Nome da empresa</label>
+                                <div class="col-sm-7">
+                                    @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control input-xs", required = "required" } })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputCNPJ" class="col-sm-5 without-padding-right control-label">CNPJ</label>
+                                <div class="col-sm-7">
+                                    @Html.EditorFor(model => model.CNPJ, new { htmlAttributes = new { @class = "form-control input-xs", required = "required", placeholder = "99.999.999/9999-99", data_mask = "99.999.999/9999-99", data_minlength = "18" } })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="inputTipoServico" id="labelTipoServico" class="col-sm-5 without-padding-right control-label">Tipos de serviços</label>
+                                <div id="MultiSelectServicosSelecionados" class="col-sm-7">
+                                    @Html.DropDownListFor(model => model.ServicosSelecionados, ViewBag.Servicos as MultiSelectList, new { multiple = "multiple", @class = "form-control input-xs" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label id="lbllocal" for="inputTipoLocal" class="col-sm-5 without-padding-right control-label">Locais de atuação</label>
+                                <div id="MultiSelectLocaisSelecionados"  class="col-sm-7">
+                                
+                                        @Html.DropDownListFor(model => model.LocaisSelecionados, ViewBag.Locais as MultiSelectList, new { multiple = "multiple", @class = "form-control input-xs" })
+                                
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputNomeResponsavel" class="col-sm-5 without-padding-right control-label">Nome do responsável da empresa</label>
+                                <div class="col-sm-7">
+                                    @Html.EditorFor(model => model.NomeResponsavelEmpresa, new { htmlAttributes = new { @class = "form-control input-xs", required = "required" } })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputEmailResponsavel" class="col-sm-5 without-padding-right control-label">E-mail do responsável da empresa</label>
+                                <div class="col-sm-7">
+                                    @Html.EditorFor(model => model.EmailResponsavelEmpresa, new { htmlAttributes = new { @class = "form-control input-xs", type = "email", required = "required" } })
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-sm-6">
+
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.EmpresaAtiva, "Empresa ativa", htmlAttributes: new { @class = "col-sm-5 without-padding-right control-label" })
+                                <div class="col-sm-7">
+                                    <div class="be-radio inline" style="line-height:23px;">
+                                        @Html.RadioButtonFor(model => model.EmpresaAtiva, true, new { id = "Sim", required = "required" })
+                                        <label for="Sim">Sim</label>
+                                    </div>
+                                    <div class="be-radio inline" style="line-height:23px;">
+                                        @Html.RadioButtonFor(model => model.EmpresaAtiva, false, new { id = "Nao", required = "required" })
+                                        <label for="Nao">Não</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Contrato, "Possui contrato", htmlAttributes: new { @class = "col-sm-5 without-padding-right control-label" })
+                                <div class="col-sm-7">
+                                    <div class="be-radio inline" style="line-height:23px;">
+                                        @Html.RadioButtonFor(model => model.Contrato, true, new { id = "ContratoSim", required = "required" })
+                                        <label for="ContratoSim">Sim</label>
+                                    </div>
+                                    <div class="be-radio inline" style="line-height:23px;">
+                                        @Html.RadioButtonFor(model => model.Contrato, false, new { id = "ContratoNao", required = "required" })
+                                        <label for="ContratoNao">Não</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="aes">
+                                <div class="form-group">
+                                    <label for="inputNomeGestor" class="col-sm-5 without-padding-right control-label">Nome do gestor AES</label>
+                                    <div class="col-sm-7">
+                                        @Html.EditorFor(model => model.NomeGestorAES, new { htmlAttributes = new { @class = "form-control input-xs" } })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputEmailGestor" class="col-sm-5 without-padding-right control-label">E-mail do gestor AES</label>
+                                    <div class="col-sm-7">
+                                        @Html.EditorFor(model => model.EmailGestorAES, new { htmlAttributes = new { @class = "form-control input-xs", type = "email" } })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputNomeMonitor" class="col-sm-5 without-padding-right control-label">Nome do monitor da AES</label>
+                                    <div class="col-sm-7">
+                                        @Html.EditorFor(model => model.NomeMonitorAES, new { htmlAttributes = new { @class = "form-control input-xs" } })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputEmailMonitor" class="col-sm-5 without-padding-right control-label">E-mail do monitor da AES</label>
+                                    <div class="col-sm-7">
+                                        @Html.EditorFor(model => model.EmailMonitorAES, new { htmlAttributes = new { @class = "form-control input-xs", type = "email" } })
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 xs-mt-15">
+                                <div class="panel-heading-divider-button"></div>
+                                <div class="col-sm-12">
+                                    <p class="text-right">
+                                        <button type="submit" class="btn btn-space btn-primary">Confirmar</button>
+                                        <button type="button" id="btnCancelarCadastrar" class="btn btn-space btn-default">Cancelar</button>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

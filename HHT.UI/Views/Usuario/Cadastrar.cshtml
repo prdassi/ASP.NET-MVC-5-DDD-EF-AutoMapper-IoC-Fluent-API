@@ -1,0 +1,139 @@
+﻿@model HHT.UI.ViewModels.UsuarioViewModel
+
+@section specificScript{
+    <script type="text/javascript" src="~/Scripts/Controllers/Usuario.js"></script>
+    <script>
+        $('#Locais').hide();
+    </script>
+}
+
+    <div class="page-head">
+        <ol class="breadcrumb page-head-nav">
+            <li><a href="#">Home</a></li>
+            <li class="active">Acesso de Usuário</li>
+        </ol>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="panel panel-border-color panel-border-color-primary">
+                    <div class="panel-heading panel-heading-divider">
+                        Cadastrar Usuário
+                        <div class="tools"><a href="@Url.Action("Index", "Usuario")"><span class="icon-container back"><span class="icon back mdi mdi-chevron-left"></span></span></a></div>
+                    </div>
+                    <div class="panel-body">
+                        @using (Html.BeginForm("Cadastrar", "Usuario", FormMethod.Post, new { @class = "form-horizontal" ,  id = "frmCadastrar", data_toggle = "validator", data_disable = "false" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <div class="col-sm-7"> 
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })                              
+                                <div class="form-group xs-mt-10">
+                                    @Html.Label("Nome", htmlAttributes: new { @class = "col-sm-3 control-label" })
+                                    <div class="col-sm-9">
+                                        @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control input-xs", type = "text", placeholder = "Nome", autocomplete = "off", required = "required" } })
+                                        @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group xs-mt-10">
+                                    @Html.Label("Empresa", htmlAttributes: new { @class = "col-sm-3 control-label" })
+                                    <div class="col-sm-9">                                        
+                                        @Html.DropDownList("EmpresaId", ViewBag.Empresas as SelectList, "-- Selecione --", new { @class = "form-control input-xs", required = "required" })
+                                        @Html.ValidationMessageFor(model => model.Empresas.Nome, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group xs-mt-10">
+                                    @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "col-sm-3 control-label" })
+                                    <div class="col-sm-9">
+                                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control input-xs", type = "email", placeholder = "E-mail", autocomplete = "off", required = "required" } })
+                                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                                    </div>  
+                                </div>                                
+                                <div class="form-group xs-mt-10" id="divSenha">
+                                    @Html.LabelFor(model => model.Senha, htmlAttributes: new { @class = "col-sm-3 control-label" })
+                                    <div class="col-sm-9">
+                                        @Html.EditorFor(model => model.Senha, new { htmlAttributes = new { @class = "form-control input-xs", type = "password", id = "inputPassword" , placeholder = "Senha", required = "requerid" } })
+                                        @Html.ValidationMessageFor(model => model.Senha, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group xs-mt-10">
+                                    <label for="inputConfirmeSenha" class="col-sm-3 control-label">Confirme a senha</label>
+                                    <div class="col-sm-9">
+                                        @Html.EditorFor(model => model.Senha, new { htmlAttributes = new { @class = "form-control input-xs", type = "password", id = "inputPasswordConfirm", data_match = "#inputPassword" , placeholder = "Confirme a senha", required = "required" } })
+                                        @Html.ValidationMessageFor(model => model.Senha, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group" id="divPorteiro">
+                                    @Html.LabelFor(model => model.Porteiro, htmlAttributes: new { @class = "col-sm-3 control-label"})
+                                    <div class="col-sm-7">
+                                        <div class="be-radio inline">
+                                            @Html.RadioButtonFor(model => model.Porteiro, true, new { id = "Sim", required = "required" })
+                                            <label for="Sim">Sim</label>
+                                        </div>
+                                        <div class="be-radio inline">
+                                            @Html.RadioButtonFor(model => model.Porteiro, false, new { id = "Nao", required = "required" })
+                                            <label for="Nao">Não</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            @*<div class="col-sm-5">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">Perfil</label>
+                                    <div class="col-sm-6">
+                                        <div class="be-radio">
+                                            @Html.RadioButtonFor(model => model.Perfil, "Porteiro", new { id = "Porteiro", required = "required" })
+                                            <label for="Porteiro">Porteiro</label>
+                                        </div>
+                                        <div class="be-radio">
+                                            @Html.RadioButtonFor(model => model.Perfil, "Empresa", new { id = "Empresa", required = "required" })
+                                            <label for="Empresa">Responsável Empresa</label>
+                                        </div>
+                                        <div class="be-radio">
+                                            @Html.RadioButtonFor(model => model.Perfil, "Seguranca", new { id = "Seguranca", required = "required" })
+                                            <label for="Seguranca">Tecnico Segurança</label>
+                                        </div>
+                                        <div class="be-radio">
+                                            @Html.RadioButtonFor(model => model.Perfil, "Funcional", new { id = "Funcional", required = "required" })
+                                            <label for="Funcional">Responsável Funcional</label>
+                                        </div>
+                                        <div class="be-radio">
+                                            @Html.RadioButtonFor(model => model.Perfil, "TI", new { id = "TI", required = "required" })
+                                            <label for="TI">Responsável TI</label>
+                                        </div>
+                                        <div class="be-radio">
+                                            @Html.RadioButtonFor(model => model.Perfil, "Gerente", new { id = "Gerente", required = "required" })
+                                            <label for="Gerente">Gerente</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>*@
+
+                            <div class="col-sm-5" id="Locais">
+                                <div id="divMultiSelect" class="form-group xs-mt-10">
+                                    <label for="inputUsuario" id="inputUsuario" class="col-sm-3 control-label">Locais</label>
+                                    <div class="col-sm-9">
+                                        @Html.DropDownListFor(model => model.LocaisSelecionados, ViewBag.Locais as MultiSelectList, new { multiple = "multiple", @class = "form-control input-xs, hidden", required = "required" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            
+
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="panel-heading-divider-button"></div>
+                                    <div class="col-sm-12">
+                                        <p class="text-right">
+                                            <button type="submit" id="btnCadastrar" class="btn btn-space btn-primary">Confirmar</button>
+                                            <button type="button" id="btnCancelarCadastrar" class="btn btn-space btn-default">Cancelar</button>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>                                         
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

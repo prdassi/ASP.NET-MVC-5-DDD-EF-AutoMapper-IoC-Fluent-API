@@ -1,0 +1,85 @@
+﻿<script type="text/javascript" src="~/Scripts/jquery-1.12.4.js"></script>
+<script type="text/javascript" src="~/Scripts/jquery.gritter.js"></script>
+
+@if (TempData["Mensagem"] != null)
+{
+    switch (TempData["ClasseAlert"].ToString())
+    {
+        case "Sucesso":
+
+            <div id="gritter-notice-wrapper" class="gritter-main-wrapper" style="display:none">
+                <div id="gritter-item-9" class="gritter-item-wrapper color success" role="alert">
+                    <div class="gritter-item">
+                        <div class="gritter-content gritter-without-image">
+                            <a class="gritter-close" onclick="msgClose()" tabindex="1">Close Notification</a>
+                            <span class="gritter-title">Sucesso</span>
+                            <p>@TempData["Mensagem"].ToString()!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            break;
+
+        case "Erro":
+
+            <div id="gritter-notice-wrapper" class="gritter-main-wrapper" style="display:none">
+                <div id="gritter-item-9" class="gritter-item-wrapper color danger" role="alert">
+                    <div class="gritter-item">
+                        <div class="gritter-content gritter-without-image">
+                            <a class="gritter-close" onclick="msgClose()" tabindex="1">Close Notification</a>
+                            <span class="gritter-title">Erro</span>
+                            <p>@TempData["Mensagem"].ToString()</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            break;
+
+        case "Atencao":
+            <div id="gritter-notice-wrapper" class="gritter-main-wrapper" style="display:none">
+                <div id="gritter-item-9" class="gritter-item-wrapper color warning" role="alert">
+                    <div class="gritter-item">
+                        <div class="gritter-content gritter-without-image">
+                            <a class="gritter-close" onclick="msgClose()" tabindex="1">Close Notification</a>
+                            <span class="gritter-title">Atenção!</span>
+                            <p>@TempData["Mensagem"].ToString()</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            break;
+    }
+    @*<div id="gritter-notice-wrapper" class="gritter-main-wrapper" style="display:none">
+            <div id="gritter-item-9" class="gritter-item-wrapper color success" role="alert">
+                <div class="gritter-item">
+                    <div class="gritter-content gritter-without-image">
+                        <a class="gritter-close" onclick="msgClose()" tabindex="1">Close Notification</a>
+                        <span class="gritter-title">Erro</span>
+                        <p>@TempData["Mensagem"].ToString()</p>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+}
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        msgOpen();
+        setTimeout(function () { msgClose(); }, 5000);
+    });
+
+    function msgClose() {
+        $("#gritter-notice-wrapper").fadeOut("slow", function () {
+            $('#gritter-notice-wrapper').hide();
+        });
+    }
+
+    function msgOpen() {
+        $("#gritter-notice-wrapper").fadeIn(1000, function () {
+            $('#gritter-notice-wrapper').show();
+        });
+    }
+</script>

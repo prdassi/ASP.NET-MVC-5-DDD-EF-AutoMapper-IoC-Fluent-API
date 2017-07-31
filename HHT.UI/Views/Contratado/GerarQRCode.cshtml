@@ -1,0 +1,214 @@
+﻿@model HHT.UI.ViewModels.IdentificacaoViewModel
+
+@section specificScript {
+    @Scripts.Render("~/bundles/contratado");
+
+    <link rel="Stylesheet" href="~/Content/QRCode.css" />
+
+    <script type="text/javascript">
+        $('#mod-primary').modal('show');
+    </script>
+}
+<META http-equiv="X-UA-Compatible" content="IE=EmulateIE9">
+<div class="page-head">
+    <ol class="breadcrumb page-head-nav">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="#">Portal</a></li>
+        <li class="active">Contratados</li>
+    </ol>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel panel-default panel-table panel-border-color panel-border-color-primary">
+                <div class="panel-heading panel-heading-divider">QRCode</div>
+                <div class="panel-body">
+                    @{
+                        <div class="col-lg-offset-3">
+                            <div id="contorno">
+
+                                <div style="display: table-row;">
+                                    <div id="quadrante1">
+
+                                        <table border="1" style="width:227px">
+                                            <thead>
+                                                <tr id="titulo">
+                                                    <td colspan="4">IDENTIFICAÇÃO DO CONTRATADO</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr id="dataAcesso">
+                                                    <td colspan="2">ACESSO PERMITIDO ATÉ</td>
+                                                    <td id="data" colspan="2">@Model.AcessoPermitido</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="descricao" colspan="4">Empresa</td>
+                                                </tr>
+                                                <tr class="dataItem">
+                                                    <td class="conteudoDescricao" colspan="4">@Model.Empresa</td>
+                                                </tr>
+                                                <tr class="descricao">
+                                                    <td class="descricao" colspan="4">Colaborador</td>
+                                                </tr>
+                                                <tr class="dataItem">
+                                                    <td class="conteudoDescricao" colspan="4">@Model.Colaborador</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="descricao" colspan="4">Função</td>
+                                                </tr>
+                                                <tr class="dataItem">
+                                                    <td class="conteudoDescricao" colspan="4">@Model.Funcao</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="descricao" colspan="4">RG</td>
+                                                </tr>
+                                                <tr class="dataItem">
+                                                    <td class="conteudoDescricao" colspan="4">@Model.RG</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="descricaoIntegracao" colspan="2">Integração Realizada</td>
+                                                    <td class="descricaoRealizado" colspan="2">ASO Realizado</td>
+                                                </tr>
+                                                <tr class="dataItem">
+                                                    <td class="conteudoDescricao" colspan="2">@Model.IntegracaoCompleta</td>
+                                                    @if (String.IsNullOrEmpty(@Model.ASO))
+                                                    {
+                                                        <td class="conteudoDescricao" colspan="2"> </td> //Código ASC Alt+255
+                                                    }
+                                                    else
+                                                    {
+                                                        <td class="conteudoDescricao" colspan="2">@Model.ASO</td>
+                                                    }
+                                                </tr>
+                                                <tr>
+                                                    <td class="descricao" colspan="4">Aprovado Por:</td>
+                                                </tr>
+                                                <tr class="dataItemAprovado">
+                                                    <td id="retiraBorda" colspan="2">@Model.AprovadoPor</td>
+                                                    <td colspan="2">@Model.Data</td>
+                                                </tr>
+                                                <tr class="dataItemFooter">
+                                                    <td id="assinatura" colspan="4"><span>_________________________________________________</span></td>
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <div class="linhaVertical"></div>
+
+                                    <div id="quadrante2">
+                                        <p id="tituloQuadrante2">IDENTIFICAÇÃO DO CONTRATADO</p>
+                                        @{ 
+                                            var path = "../../Content/Images/QRCode/" + @Model.QRCode;
+                                            <div id="container"><img src='@path' style="width:199px; height:199px" /></div>
+                                        }
+                                    </div>
+                                </div>
+
+                                <div style="display: table-row;">
+                                    <div id="quadrante3">
+
+                                        <table class="treinamentoIntegracao" border="1">
+                                            <thead>
+                                                <tr id="titulo">
+                                                    <td id="tituloGrande" colspan="4">Treinamentos e Capacitações (válidos até)</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @{
+                                                    int groupings = 2;
+                                                    var grouped = Model.Documentos.Select((x, i) => new { x, i = i / groupings })
+                                                                  .GroupBy(x => x.i, x => x.x);
+
+                                                    foreach (var items in grouped)
+                                                    {
+                                                        <tr id="dataAcesso">
+                                                            @foreach (var item in items)
+                                                            {
+                                                                <td>@item.Nome</td>
+                                                                <td class="semBordaEsquerda">@item.Realizado</td>
+                                                                continue;
+                                                                <td>@item.Nome</td>
+                                                                <td class="semBordaEsquerda">@item.Realizado</td>
+                                                            }
+                                                            @if (items.Count() == 1)
+                                                            {
+                                                                <td colspan="2"></td>
+                                                            }
+                                                        </tr>
+                                                    }
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <div class="linhaVertical"></div>
+
+                                    <div id="quadrante4">
+
+                                        <table class="treinamentoIntegracaoRealizadas" style="width: 226px;" border="1">
+                                            <thead>
+                                                <tr id="titulo">
+                                                    <td colspan="4">Integrações Realizadas</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @{
+                                                    int grupos = 2;
+                                                    var agrupado = Model.Locais.Select((x, i) => new { x, i = i / grupos })
+                                                                  .GroupBy(x => x.i, x => x.x);
+
+                                                    foreach (var items in agrupado)
+                                                    {
+                                                        <tr id="dataAcesso">
+                                                            @foreach (var item in items)
+                                                            {
+                                                                <td>@item.Sigla</td>
+                                                                <td class="semBordaEsquerda">@item.Realizado</td>
+                                                                continue;
+                                                                <td>@item.Sigla</td>
+                                                                <td class="semBordaEsquerda">@item.Realizado</td>
+                                                            }
+                                                            @if (items.Count() == 1)
+                                                            {
+                                                                <td colspan="2"></td>
+                                                            }
+                                                        </tr>
+                                                    }
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Modal QRCode-->
+<div id="mod-primary" tabindex="-1" role="dialog" style="" class="modal fade" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" onclick="FecharQRCode('@Model.QRCode')" data-dismiss="modal" aria-hidden="true" class="close"><span class="mdi mdi-close"></span></button>
+            </div>
+            <div class="modal-body">
+                <div class="text-center">
+                    <div class="text-primary"><span class="modal-main-icon mdi mdi-info-outline"></span></div>
+                    <h3>Confirme!</h3>
+                    <p>Será gerado para impressão o cartão com seu respectivo QR Code.<br>Outros dados também serão disponibilizados.</p>
+                    <div class="xs-mt-50">
+                        <button type="button" onclick="FecharQRCode()" data-dismiss="modal" class="btn btn-space btn-default">Cancelar</button>
+                        <button type="button" id="btnGerarQRCode" data-nomeqrcode='@Model.QRCode' data-dismiss="modal" class="btn btn-space btn-primary">Gerar</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer"></div>
+        </div>
+    </div>
+</div>

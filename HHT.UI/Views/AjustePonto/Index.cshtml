@@ -1,0 +1,141 @@
+﻿@model IEnumerable<HHT.UI.ViewModels.PontoViewModel>
+
+@section specificScript{
+    <script type="text/javascript" src="~/Scripts/Controllers/AjustePonto.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#LocalId').val("");
+            $('#Ano').val("");
+        });
+    </script>
+}
+
+<div class="page-head">
+    <ol class="breadcrumb page-head-nav">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="#">Administração</a></li>
+        <li class="active">Ajustes de Ponto</li>
+    </ol>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel panel-border-color panel-border-color-primary">
+                <div class="panel-heading panel-heading-divider">Ajustes de Ponto</div>
+                <div class="panel-body">
+                    @using (Html.BeginForm("Buscar", "AjustePonto", FormMethod.Post, new { @class = "form-horizontal", id = "frmAjustePontoBuscar", data_toggle = "validator", data_disable = "false" }))
+                    {
+                                    @Html.AntiForgeryToken()
+
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="inputLocal" class="col-md-2 control-label">Local</label>
+                                <div class="col-sm-12">
+                                    @Html.DropDownList("LocalId", ViewBag.LocalId as SelectList, "-- Selecione --", new { @class = "form-control input-xs", required = "required" })
+                                </div>
+                            </div>
+                            <div class="form-group md-pt-0">
+                                <label for="inputEmpresa" class="col-md-2 control-label">Ano</label>
+                                <div class="col-sm-12">
+                                    @Html.DropDownList("Ano", ViewBag.AnoId as SelectList, "-- Selecione --", new { @class = "form-control input-xs", required = "required" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="inputEmpresa" class="col-md-2 control-label">Empresa</label>
+                                <div class="col-sm-12">
+                                    @Html.DropDownList("EmpresaId", Enumerable.Empty<SelectListItem>(), "-- Selecione --", new { @class = "form-control input-xs", required = "required" })
+                                </div>
+                            </div>
+                            <div class="form-group md-pt-0">
+                                <label for="inputAno" class="col-md-2 control-label">Mês</label>
+                                <div class="col-sm-12">
+                                    @Html.DropDownList("Mes", Enumerable.Empty<SelectListItem>(), "-- Selecione --", new { @class = "form-control input-xs", required = "required" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="inputNome" class="col-md-2 control-label">Contratado</label>
+                                <div class="col-sm-12">
+                                    @Html.DropDownList("ContratadoId", Enumerable.Empty<SelectListItem>(), "-- Selecione --", new { @class = "form-control input-xs", required = "required" })
+                                </div>
+                            </div>
+                            <div class="form-group md-pt-0">
+                                <label for="inputNome" class="col-md-2 control-label">Dia</label>
+                                <div class="col-sm-12">
+                                    @Html.DropDownList("Dia", Enumerable.Empty<SelectListItem>(), "-- Selecione --", new { @class = "form-control input-xs", required = "required" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <div class="form-group xs-ml-0 xs-pb-0 xs-mt-92">
+                                <button type="submit" data-toggle="modal" data-target="#mod-success" id="btnBuscar" class="btn btn-space btn-primary">Buscar</button>
+                            </div>
+                        </div>
+                        <div class="row"></div>
+                    }
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="col-sm-12">
+            <div class="panel panel-default">
+                <div class="panel-heading panel-heading-divider">Contratados</div>
+                <div class="panel-body">
+                    <table id="datatable" class="table table-striped table-hover table-fw-widget">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>RG</th>
+                                <th>Função</th>
+                                <th>Empresa</th>
+                                <th>Ativo</th>
+                                <th>Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null)
+                            {
+                                foreach (var item in Model)
+                                {
+                                    <tr class="odd gradeX">
+                                        <td>@Html.DisplayFor(model => item.Contratado.Nome)</td>
+                                        <td>@Html.DisplayFor(model => item.Contratado.RG)</td>
+                                        <td>@Html.DisplayFor(model => item.Contratado.Funcao.Nome)</td>
+                                        <td>@Html.DisplayFor(model => item.Contratado.Empresa.Nome)</td>
+                                        @if (item.Contratado.Ativo)
+                                        {
+                                            <td><a data-toggle="tooltip" data-original-title="Sim" class="icon"><i class="mdi size mdi-check size mdc-text-green"></i></a></td>
+                                        }
+                                        else
+                                        {
+                                            <td><a data-toggle="tooltip" data-original-title="Não" class="icon"><i class="mdi size mdi-block size mdc-text-red"></i></a></td>
+                                        }
+                                        <td class="center actions">
+                                            @{
+                                                int dia = 0; // Todos dias(mês inteiro)
+                                                if (ViewBag.Dia > 0)  //Dia específico
+                                                {
+                                                    dia = ViewBag.Dia;
+                                                }
+                                                <div class="icon-table"><a href="@Url.Action("AjustarPonto", "AjustePonto", new { localId = item.LocalId, empresaId = item.Contratado.EmpresaId, contratadoId = item.ContratadoId, ano = item.DataRegistro.Year, mes = item.DataRegistro.Month, dia = @dia })" data-toggle="tooltip" data-original-title="Ajustar ponto" class="icon"><i class="mdi mdi-edit"></i></a></div>
+                                            }
+                                        </td>
+
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

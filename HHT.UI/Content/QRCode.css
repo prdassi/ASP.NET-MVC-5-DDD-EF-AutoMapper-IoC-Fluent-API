@@ -1,0 +1,203 @@
+﻿table{
+    width: 227px;
+    padding: 0;
+    margin: 0;
+        clear: both;
+}
+
+#titulo {
+    font-size: 11px;
+    vertical-align: middle;
+    text-align: center;
+    line-height: 27px;
+    font-weight: bold;
+    border-top-style: hidden;
+    border-right-style: hidden;
+    border-left-style: hidden;
+}
+
+#dataAcesso {
+    line-height: 20px;
+    text-align: center;
+    border-top: 1.5px solid #000;
+    border-left: 1.5px solid #000;
+}
+
+#dataAcesso > #data {
+    font-size: 10px;
+    color: white;
+    background-color: #000;
+    font-weight: bold;
+}
+
+.descricao {
+    padding-left: 5px;
+    padding-top: 5px;
+    border-left: 1.5px solid #000;   
+    border-right: 1.5px solid #000;
+    border-bottom: hidden;
+}
+
+.descricaoIntegracao {
+    padding-left: 5px;
+    padding-top: 5px;
+    border-left: 1.5px solid #000;
+    border-bottom: hidden;
+}
+.descricaoRealizado {
+    padding-left: 5px;
+    padding-top: 5px;  
+    border-right: 1.5px solid #000;
+    border-bottom: hidden;
+}
+
+.dataItem {
+    font-size: 8px;
+    line-height: 25px;
+    text-align: center;
+    font-style: italic;
+    font-weight: bold;
+    border-left: 1.5px solid #000;       
+}
+    .dataItem > #assinatura {
+        line-height: 30px;
+    }
+
+.conteudoDescricao {
+    font-size: 10px;
+}
+.dataItemAprovado {
+    font-size: 8px;
+    border-top-style: hidden;
+    border-bottom-style: hidden;   
+    line-height: 31px;
+    text-align: center;
+    border-left: 1.5px solid #000;   
+    border-right: 1.5px solid #000;
+}
+    .dataItemAprovado > #retiraBorda {
+        border-right-style: hidden;
+
+    }
+
+.dataItemFooter {
+    font-size: 8px;
+    line-height: 33px;
+    text-align: center;
+    font-style: italic;
+    font-weight: bold;
+    border-left: 1.5px solid #000;   
+    border-right: 1.5px solid #000;    
+    border-bottom-style: hidden;
+}
+
+#contorno {
+    padding: 0px 3px 3px 3px;
+    border: 1px dashed #000;
+    border-color: #000;
+    float: left;
+}
+
+.linhaVertical {
+    float: left;
+    height: 329px;
+    border-left: 1px groove;
+    margin-left: 4px;
+}
+
+#quadrante1 {
+    float:left;
+    font-size: 7px;
+    border: 1px solid #000;
+    border-color: #000;
+    border-top-style: hidden;
+    border-right-style: hidden;
+    border-left-style: hidden;
+}
+
+#quadrante2 {
+    float:left;
+    font-size: 7px;
+    border: 1px solid #000;
+    border-color: #000;
+    border-top-style: hidden;
+    border-right-style: hidden;
+    border-left-style: hidden;
+    border-bottom-style: hidden;
+    margin-left: 3px;
+}
+
+
+#quadrante3 {
+    float:left;
+    font-size: 7px;
+    border-color: #000;
+    border-top-style: hidden;
+    border-right-style: hidden;
+    border-left-style: hidden;
+    margin-top: 4px;
+}
+
+#quadrante4 {
+    float:left;
+    font-size: 7px;
+    border-color: #000;
+    border-top-style: hidden;
+    border-right-style: hidden;
+    border-left-style: hidden;
+    margin-left: 3px;
+     width: 227px;
+     margin-top: 4px;
+}
+
+#container {
+    width: 227px;
+    padding: 0;
+    margin: 0;
+    height: 307px;
+    border: 1.5px solid #000;
+    border-right: 1.5px solid #000;
+    text-align: center;
+}
+
+    #container > img {
+        margin-top: 65px;
+    }
+
+#tituloQuadrante2 {
+    font-size: 11px;
+    text-align: center;
+    line-height: 27px;
+    font-weight: bold;
+    margin: 0px !important;
+}
+
+.semBordaEsquerda {
+    border-left-style: hidden;
+    width: 35px !important;
+    font-style: italic;
+}
+
+.treinamentoIntegracao tbody td {
+    width: 60px;
+    height: 43px;
+    line-height: 10px;
+    font-size: 7px;
+    padding: 3px;   
+}
+
+.treinamentoIntegracaoRealizadas tbody td {
+    width: 30px;
+    height: 43px;
+    line-height: 10px;
+    font-size: 7px;
+    padding: 3px;   
+}
+
+.panel-table tr td:first-child {
+    padding-left: 4px !important; 
+}
+
+.panel-table tr td:last-child {
+    padding-right: 4px !important;
+}

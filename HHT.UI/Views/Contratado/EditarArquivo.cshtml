@@ -1,0 +1,198 @@
+﻿@model HHT.UI.ViewModels.ArquivoContratadoViewModel
+
+<div class="page-head">
+    <ol class="breadcrumb page-head-nav">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Portal</a></li>
+        <li class="active">Empresas</li>
+    </ol>
+</div>
+<div class="container-fluid">
+    <div class="row">
+
+        <div class="col-sm-12">
+            <div class="panel panel-border-color panel-border-color-primary">
+                <div class="panel-heading panel-heading-divider">
+                    Documentos da Empresa
+                    <div class="tools"><a href="@Url.Action("Documentos", "Contratado", new { contratadoId = Model.Contratados.First().ContratadoId })"><span class="icon-container back"><span class="icon back mdi mdi-chevron-left"></span></span></a></div>
+                </div>
+                <div class="panel-body">
+                    <div class="form-horizontal">
+                        <div class="col-md-4">
+                            <div class="form-group xs-mt-10">
+                                <label for="inputNome" class="col-md-2 without-padding-right control-label">Nome</label>
+                                <div class="col-sm-10">
+                                    @Html.EditorFor(model => model.Contratados.First().Nome, new { htmlAttributes = new { @class = "form-control input-xs", @readonly = "readonly" } })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group xs-mt-10">
+                                <label for="inputRG" class="col-md-2 without-padding-right control-label">RG</label>
+                                <div class="col-sm-10">
+                                    @Html.EditorFor(model => model.Contratados.First().RG, new { htmlAttributes = new { @class = "form-control input-xs", @readonly = "readonly" } })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group xs-mt-10">
+                                <label for="inputFuncao" class="col-md-2 without-padding-right control-label">Função</label>
+                                <div class="col-sm-10">
+                                    @Html.EditorFor(model => model.Contratados.First().Funcao.Nome, new { htmlAttributes = new { @class = "form-control input-xs", @readonly = "readonly" } })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12">
+            <div class="panel panel-border">
+                <div class="panel-heading panel-heading-divider">Editar documentos</div>
+                <div class="panel-body without-bottom">
+
+                    @using (Html.BeginForm("EditarArquivo", "Contratado", FormMethod.Post, new { enctype = "multipart/form-data", runat = "server", @class = "form-horizontal", id = "frmCadastrarDocumento", data_toggle = "validator", data_disable = "false" }))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        @Html.HiddenFor(model => model.ArquivoContratadoId)
+                        @Html.HiddenFor(model => model.Contratados.First().ContratadoId)
+                        <div class="col-sm-6">
+                            <div class="form-horizontal">
+                                <div class="form-group xs-mt-10">
+                                    <label for="inputTipo" class="col-sm-2 without-padding-right control-label">Tipo</label>
+                                    <div class="col-sm-10">
+                                        @Html.DropDownList("TipoDocumentoId", ViewBag.TiposDocumento as SelectList, "-- Selecione --", new { @class = "form-control input-xs", required = "required" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputDescricao" class="col-sm-2 without-padding-right control-label">Descrição</label>
+                                    <div class="col-sm-10">
+                                        @Html.DropDownList("DocumentoGeralId", ViewBag.DocumentosGeral as SelectList, "-- Selecione --", new { @class = "form-control input-xs", required = "required" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputDocumento" class="col-sm-2 without-padding-right control-label">Doc.</label>
+                                    <div class="col-sm-10">
+                                        @{
+                                            var nomeArquivo = Model.Nome.Split(Convert.ToChar("_"))[0] + Model.Tipo;
+                                            @Html.Editor("Arquivo", new { htmlAttributes = new { @Value = nomeArquivo, @class = "form-control input-xs", @readonly = "readonly" } })
+                                        }
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputDocumento" class="col-sm-2 without-padding-right control-label">Arquivo</label>
+                                    <div class="col-sm-10">
+                                        <input type="file" name="upload" id="upload" data-multiple-caption="{count} arquivos selecionados" multiple="" class="inputfile">
+                                        <label for="upload" class="btn-default" id="incluirDocumento"> <i class="mdi mdi-upload"></i><span>Selecione o arquivo...</span></label>
+                                        @Html.HiddenFor(model => model.Nome)
+                                        @Html.HiddenFor(model => model.Tipo)
+                                        @Html.HiddenFor(model => model.Tamanho)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+
+                            <div class="form-horizontal">
+                                <div class="form-group xs-mt-10" id="divLocal">
+                                    <label for="inputLocal" class="col-sm-3 without-padding-right control-label">Local</label>
+                                    <div class="col-sm-8">
+                                        @Html.DropDownList("LocalId", ViewBag.Locais as SelectList, "-- Selecione --", new { @class = "form-control input-xs", @readonly = "readonly" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputRealizado" class="col-sm-3 without-padding-right control-label">Realizado em</label>
+                                    <div class="col-sm-8">
+                                        @Html.Editor("DataDocumento", new { htmlAttributes = new { @class = "form-control input-xs", required = "required", data_mask = "99/99/9999", placeholder = "DD/MM/AAAA" } })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputComentario" class="col-sm-3 without-padding-right control-label">Comentários</label>
+                                    <div class="col-sm-8">
+                                        @Html.TextAreaFor(model => model.Comentario, new { @class = "form-control input-xs" })
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row">
+
+                            <div class="col-sm-12">
+                                <div class="panel-heading-divider-button"></div>
+                                <div class="col-sm-12">
+                                    <p class="text-right">
+                                        <button type="submit" id="btnSalvar" class="btn btn-space btn-primary">Confirmar</button>
+                                        <button type="button" class="btn btn-space btn-default" onclick="javascript:document.location.href='@Url.Action("EditarArquivo", "Contratado", new { contratadoId = Model.Contratados.First().ContratadoId, arquivoContratadoId = Model.ArquivoContratadoId })'">Cancelar</button>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                                            }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section specificScript{
+    @Scripts.Render("~/bundles/contratado")
+
+    <script src="~/Scripts/bootstrap-slider.js" type="text/javascript"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            var value = $('#TipoDocumentoId').val();
+            var valueText = $("#DocumentoGeralId option:selected").text();
+            var valueSearch = valueText.indexOf("Local");
+            if (value == 2 && valueSearch != -1) {
+                $('#LocalId').empty();
+                $("#LocalId :gt(0)").remove();
+                $.getJSON('/Contratado/LocalDocumentos', { DocumentoGeralId: $('#DocumentoGeralId').val() }, function (data) {
+                    $.each(data, function (index, item) {
+                        $('#LocalId').append('<option value=' +
+                          item.LocalId + '>' + item.Nome + '</option>');
+                    });
+                    $("#LocalId option[value='']").remove();
+                    //    $('#LocalId').first().attr("disabled", true);
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alert('Error getting documentos!');
+                });
+
+
+                $('#divLocal').show();
+                $('#LocalId').show();
+                $('#LocalId').attr('required', 'required');
+                $('#Local').attr('required', 'required');
+                $('#LocalId').val('');
+                $('#inputLocal').show();
+            }
+            else {
+                $('#divLocal').hide();
+                $('#LocalId').hide();
+                $('#Local').removeAttr('required');
+                $('#LocalId').removeAttr('required');
+
+            }
+
+        });
+
+    </script>
+
+    <script type="text/javascript">
+        App.formElements();
+
+        if ('@TempData["apresentarModal"]' != "") {
+            $('#mod-success').modal('show');
+        }
+    </script>
+}

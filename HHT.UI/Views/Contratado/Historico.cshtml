@@ -1,0 +1,48 @@
+﻿@model IEnumerable<HHT.UI.ViewModels.HistoricoViewModel>
+
+@section specificScript{
+    @Scripts.Render("~/bundles/contratado")
+}
+
+<div class="page-head">
+    <ol class="breadcrumb page-head-nav">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Portal</a></li>
+        <li class="active">Contratados</li>
+    </ol>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel panel-default panel-table panel-border-color panel-border-color-primary">
+                <div class="panel-heading panel-heading-divider">Histórico
+                    <div class="tools"><a href="@Url.Action("Index", "Contratado")"><span class="icon-container back"><span class="icon back mdi mdi-chevron-left"></span></span></a></div>
+                </div>
+                <div class="panel-body">
+                    <table id="datatable" class="table table-striped table-hover table-fw-widget">
+                        <thead>
+                            <tr>
+                                <th>Data</th>
+                                <th>Responsável</th>
+                                <th>Descrição</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr class="odd gradeX">
+                                    @{
+                                        var data = item.Data.ToShortDateString();
+                                        <td>@data</td>
+                                    }                                    
+                                    <td>@Html.DisplayFor(modelItem => item.Usuario.Nome)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Descricao)</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

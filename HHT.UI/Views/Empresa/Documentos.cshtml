@@ -1,0 +1,133 @@
+﻿@model HHT.UI.ViewModels.EmpresaViewModel
+
+@section specificScript{
+    @Scripts.Render("~/bundles/empresa")
+    <script>
+        $(document).ready(function () {
+            botaoNovoDocumento($('#EmpresaId').val());
+        });
+    </script>
+}
+
+    <div class="page-head">
+        <ol class="breadcrumb page-head-nav">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Portal</a></li>
+            <li class="active">Empresas</li>
+        </ol>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="panel panel-border-color panel-border-color-primary">
+                    <div class="panel-heading panel-heading-divider">
+                        Documentos da Empresa
+                        <div class="tools"><a href="@Url.Action("Index", "Empresa")"><span class="icon-container back"><span class="icon back mdi mdi-chevron-left"></span></span></a></div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-horizontal">
+                            @Html.HiddenFor(model => model.EmpresaId)
+                            <div class="col-md-4">
+                                <div class="form-group xs-mt-10">
+                                    <label for="inputRG" class="col-md-2 control-label">Empresa</label>
+                                    <div class="col-sm-10">
+                                        @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control input-xs", @readonly = "readonly" } })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group xs-mt-10">
+                                    <label for="inputRG" class="col-md-2 without-padding-right control-label">CNPJ</label>
+                                    <div class="col-sm-10">
+                                        @Html.EditorFor(model => model.CNPJ, new { htmlAttributes = new { @class = "form-control input-xs", @readonly = "readonly" } })
+                                    </div>
+                                </div>
+                            </div>
+
+                            @*<div class="col-md-4">
+                                <div class="form-group xs-mt-10">
+                                    <label for="inputNome" class="col-md-2 without-padding-right control-label">Local</label>
+                                    <div class="col-sm-10">
+                                        @Html.EditorFor(model => model.Local.Nome, new { htmlAttributes = new { @class = "form-control input-xs", @readonly = "readonly" } })
+                                    </div>
+                                </div>
+                            </div>*@
+                            <div class="row"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading panel-heading-divider">Lista de Documentos</div>
+
+                    <div class="panel-body">
+                        <table id="datatable" class="table table-striped table-borderless table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Descrição</th>
+                                    <th>Validade</th>
+                                    <th>Anexo</th>
+                                    <th>Ação</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.ArquivosEmpresa)
+                                {
+                                    var vencimento = "";
+                                    if (item.DataDocumento.CompareTo(DateTime.Now) < 0)
+                                    {
+                                        vencimento = "class='vencido'";
+                                    }
+                                    else if (item.DataDocumento.CompareTo(DateTime.Now) >= 0 && (DateTime.Now.AddDays(30).CompareTo(item.DataDocumento) > 0))
+                                    {
+                                        vencimento = "class='a-vencer'";
+                                    }
+                                    <tr @Html.Raw(vencimento) id="row_@item.ArquivoEmpresaId">
+                                        <td>@Html.DisplayFor(modelItem => item.DocumentosGeral.Nome)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.DocumentosGeral.Descricao)</td>
+                                        @{
+                                            var data = item.DataDocumento.ToShortDateString();
+                                            <td>@data</td>
+                                        }
+                                        <td><div class="icon-table"><a href="@Url.Action("DownloadArquivo", "Empresa", new { empresaId = Model.EmpresaId, arquivoEmpresaId = item.ArquivoEmpresaId })" data-toggle="tooltip" data-original-title="Download" class="icon"><i class="mdi mdi-download size mdc-text-black"></i></a></div></td>
+                                        <td class="center actions">
+                                            <div class="icon-table"><a href="@Url.Action("EditarArquivo", "Empresa", new { empresaId = Model.EmpresaId, arquivoEmpresaId = item.ArquivoEmpresaId })" data-toggle="tooltip" data-original-title="Editar" class="icon"><i class="mdi mdi-edit"></i></a></div>
+                                            <div class="icon-table"><a href="#" data-id=@item.ArquivoEmpresaId data-empresaId=@Model.EmpresaId data-content="ExcluirDocumento" class="btnExcluir icon"><i data-toggle="tooltip" data-original-title="Excluir" class="mdi mdi-delete"></i></a></div>
+                                        </td>
+                                    </tr>                                    
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!--Modal Excluir-->
+<div id="mod-danger" tabindex="-1" role="dialog" style="" class="modal fade" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" data-dismiss="modal" aria-hidden="true" class="close"><span class="mdi mdi-close"></span></button>
+            </div>
+            <div class="modal-body">
+                <div class="text-center">
+                    <div class="text-danger"><span class="modal-main-icon mdi mdi-close-circle-o"></span></div>
+                    <h3>Atenção!</h3>
+                    <h4>Deseja realmente excluir este documento e seu respectivo arquivo?</h4>
+
+                    <div class="xs-mt-50">
+                        <button type="button" id="bntCancelar" data-dismiss="modal" class="btn btn-space btn-default">Cancelar</button>
+                        <button type="button" id="btnConfirmaExclusaoDocumento" class="btn btn-space btn-danger">Excluir</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer"></div>
+        </div>
+    </div>
+</div>
